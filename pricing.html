@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing & Plans | DairySync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-dark: #ea6c0a;
+      --orange-light: #fff7ed;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ---- Navbar dropdown ---- */
+    .dropdown-menu {
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    /* ---- Hero ---- */
+    .price-hero {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 40%, #ecfdf5 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 50%, rgba(249, 115, 22, .08) 0%, transparent 55%),
+        radial-gradient(circle at 85% 20%, rgba(52, 211, 153, .08) 0%, transparent 55%);
+    }
+
+    .price-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, #f9fafb);
+    }
+
+    /* ---- Toggle switch ---- */
+    .toggle-track {
+      width: 52px;
+      height: 28px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      transition: background .25s;
+    }
+
+    .toggle-track.on {
+      background: var(--orange);
+    }
+
+    .toggle-thumb {
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: left .25s;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+    }
+
+    .toggle-track.on .toggle-thumb {
+      left: 27px;
+    }
+
+    /* ---- Plan card ---- */
+    .plan-card {
+      background: white;
+      border-radius: 24px;
+      border: 2px solid #f3f4f6;
+      padding: 32px 28px;
+      position: relative;
+      transition: transform .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .1);
+    }
+
+    .plan-card.popular {
+      border-color: var(--orange);
+      box-shadow: 0 8px 40px rgba(249, 115, 22, .18);
+    }
+
+    .plan-card.popular:hover {
+      box-shadow: 0 24px 64px rgba(249, 115, 22, .25);
+    }
+
+    /* ---- Feature list ---- */
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #4b5563;
+      padding: 6px 0;
+      border-bottom: 1px solid #f9fafb;
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .check {
+      color: #22c55e;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ---- CTA buttons ---- */
+    .btn-orange {
+      background: var(--orange);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(249, 115, 22, .35);
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+
+    .btn-orange:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, .4);
+    }
+
+    .btn-outline {
+      background: white;
+      color: #374151;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      padding: 14px;
+      border-radius: 14px;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      transition: border-color .2s, color .2s, transform .15s;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Comparison table ---- */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .compare-table th {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 14px 16px;
+      text-align: center;
+      background: white;
+      position: sticky;
+      top: 64px;
+      z-index: 5;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .compare-table th:first-child {
+      text-align: left;
+    }
+
+    .compare-table td {
+      padding: 13px 16px;
+      font-size: 13px;
+      color: #4b5563;
+      border-bottom: 1px solid #f9fafb;
+      text-align: center;
+      background: white;
+    }
+
+    .compare-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .compare-table tr:hover td {
+      background: #fafafa;
+    }
+
+    .compare-table .section-header td {
+      background: #f9fafb;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: #6b7280;
+      padding: 10px 16px;
+    }
+
+    .col-popular {
+      background: #fff7ed !important;
+    }
+
+    .col-popular-header {
+      background: #fff7ed !important;
+      color: var(--orange) !important;
+    }
+
+    /* ---- Check / Cross icons ---- */
+    .ic-yes {
+      color: #22c55e;
+      font-size: 18px;
+    }
+
+    .ic-no {
+      color: #d1d5db;
+      font-size: 16px;
+    }
+
+    /* ---- Badge ---- */
+    .badge-popular {
+      background: var(--orange);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    /* ---- Savings pill ---- */
+    .savings-pill {
+      background: #dcfce7;
+      color: #16a34a;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    /* ---- Fade in ---- */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .55s ease forwards;
+    }
+
+    .d1 {
+      animation-delay: .1s;
+      opacity: 0;
+    }
+
+    .d2 {
+      animation-delay: .2s;
+      opacity: 0;
+    }
+
+    .d3 {
+      animation-delay: .3s;
+      opacity: 0;
+    }
+
+    /* ---- Price transition ---- */
+    .price-num {
+      transition: opacity .2s;
+    }
+
+    .price-num.fade {
+      opacity: 0;
+    }
+
+    /* ---- Table scroll ---- */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 20px;
+      border: 1.5px solid #f3f4f6;
+    }
+
+    /* ---- FAQ accordion ---- */
+    .faq-item {
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #1f2937;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 0 16px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .faq-a.open {
+      display: block;
+    }
+
+    .faq-icon {
+      font-size: 20px;
+      color: var(--orange);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .faq-icon.open {
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <div id="header"></div>
+
+  <script>
+    fetch("header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <!-- ===== HERO ===== -->
+  <section class="price-hero pt-20 pb-36 px-4 relative">
+    <div class="max-w-3xl mx-auto text-center relative z-10">
+      <div
+        class="fade-up inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-xs font-semibold px-4 py-2 rounded-full mb-6">
+        💰 Simple, transparent pricing
+      </div>
+      <h1 class="fade-up d1 text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-5">
+        Plans That Grow With<br><span class="text-orange-500">Your Farm</span>
+      </h1>
+      <p class="fade-up d2 text-gray-500 text-lg max-w-xl mx-auto leading-relaxed mb-10">
+        No hidden fees. No complicated tiers. Just the right tools for every herd size — starting with a 14-day free
+        trial.
+      </p>
+
+      <!-- ===== BILLING TOGGLE ===== -->
+      <div
+        class="fade-up d3 inline-flex items-center gap-4 bg-white rounded-2xl px-6 py-4 shadow-md border border-gray-100">
+        <span id="lbl-monthly" class="text-sm font-bold text-orange-500">Monthly</span>
+        <div class="toggle-track" id="billing-toggle" onclick="switchBilling()">
+          <div class="toggle-thumb"></div>
+        </div>
+        <span id="lbl-annual" class="text-sm font-bold text-gray-400">Annual</span>
+        <span class="savings-pill" id="savings-badge">Save 20%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLAN CARDS ===== -->
+  <section class="max-w-7xl mx-auto px-4 -mt-24 pb-16 relative z-10">
+    <div class="grid md:grid-cols-3 gap-6 items-stretch">
+
+      <!-- BASIC -->
+      <div class="plan-card fade-up">
+        <div class="mb-6">
+          <div class="w-11 h-11 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-4">🌱</div>
+          <h2 class="text-xl font-extrabold text-gray-900">Basic Plan</h2>
+          <p class="text-xs text-gray-400 mt-1">For Small Farmers – Up to 50 Cattle</p>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-2">
+          <div class="flex items-end gap-1">
+            <span class="text-3xl font-black text-gray-900">₹</span>
+            <span class="text-5xl font-black text-gray-900 price-num" id="basic-price">1,999</span>
+            <span class="text-gray-400 text-sm mb-2" id="basic-duration">/month</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1" id="basic-billed">Billed monthly</p>
+        </div>
+
+        <!-- Trial badge -->
+        <div
+          class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+          🎁 14-Day Free Trial
+        </div>
+
+        <!-- Features -->
+        <div class="flex-1 mb-7">
+          <div class="feature-item"><span class="check">✓</span> Mobile App Access</div>
+          <div class="feature-item"><span class="check">✓</span> Advanced Cattle Breeding Management</div>
+          <div class="feature-item"><span class="check">✓</span> Cattle Boarding</div>
+          <div class="feature-item"><span class="check">✓</span> Data Recording (Milking, Vaccination, Fat & SNF,
+            Diseases)</div>
+          <div class="feature-item"><span class="check">✓</span> Feed Management (Feed & Inventory)</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Management (Shed & Group)</div>
+          <div class="feature-item"><span class="check">✓</span> Employee Management</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Reports (Milk, Breed, Semen, Performance)</div>
+          <div class="feature-item"><span class="check">✓</span> Health Report (Vaccination, Disease, Deworming)</div>
+          <div class="feature-item"><span class="check">✓</span> Expense Tracking (Feed, Vet, Medicine)</div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">1 User</span> Access</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">50 Cattle</span> Management</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">2 GB</span> Storage Space</div>
+          </div>
+        </div>
+
+        <a href="auth.html?tab=signup" class="btn-outline">Start Free Trial</a>
+      </div>
+
+      <!-- GROWTH (Most Popular) -->
+      <div class="plan-card popular fade-up d1 relative">
+        <!-- Popular badge -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span class="badge-popular">⭐ Most Popular</span>
+        </div>
+
+        <div class="mb-6">
+          <div class="w-11 h-11 bg-orange-100 rounded-xl flex items-center justify-center text-2xl mb-4">🚀</div>
+          <h2 class="text-xl font-extrabold text-gray-900">Growth Plan</h2>
+          <p class="text-xs text-gray-400 mt-1">For Medium Farmers – Up to 100 Cattle</p>
+        </div>
+
+        <div class="mb-2">
+          <div class="flex items-end gap-1">
+            <span class="text-3xl font-black text-orange-500">₹</span>
+            <span class="text-5xl font-black text-orange-500 price-num" id="growth-price">3,999</span>
+            <span class="text-gray-400 text-sm mb-2" id="growth-duration">/month</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1" id="growth-billed">Billed monthly</p>
+        </div>
+
+        <div
+          class="inline-flex items-center gap-1.5 bg-orange-50 text-orange-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+          🎁 14-Day Free Trial
+        </div>
+
+        <div class="flex-1 mb-7">
+          <div class="feature-item"><span class="check">✓</span> Mobile App Access</div>
+          <div class="feature-item"><span class="check">✓</span> Advanced Cattle Breeding Management</div>
+          <div class="feature-item"><span class="check">✓</span> Cattle Boarding</div>
+          <div class="feature-item"><span class="check">✓</span> Data Recording (Milking, Vaccination, Fat & SNF,
+            Diseases)</div>
+          <div class="feature-item"><span class="check">✓</span> Feed Management (Feed & Inventory)</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Management (Shed & Group)</div>
+          <div class="feature-item"><span class="check">✓</span> Employee Management</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Reports (Milk, Breed, Semen, Performance)</div>
+          <div class="feature-item"><span class="check">✓</span> Health Report (Vaccination, Disease, Deworming)</div>
+          <div class="feature-item"><span class="check">✓</span> Expense Tracking (Feed, Vet, Medicine)</div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">2 Users</span> Access</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">100 Cattle</span> Management</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">5 GB</span> Storage Space</div>
+          </div>
+        </div>
+
+        <a href="auth.html?tab=signup" class="btn-orange">Start Free Trial</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="plan-card fade-up d2">
+        <div class="mb-6">
+          <div class="w-11 h-11 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-4">🏢</div>
+          <h2 class="text-xl font-extrabold text-gray-900">Enterprise Plan</h2>
+          <p class="text-xs text-gray-400 mt-1">For Large Farmers – Up to 200 Cattle</p>
+        </div>
+
+        <div class="mb-2">
+          <div class="flex items-end gap-1">
+            <span class="text-3xl font-black text-gray-900">₹</span>
+            <span class="text-5xl font-black text-gray-900 price-num" id="enterprise-price">7,999</span>
+            <span class="text-gray-400 text-sm mb-2" id="enterprise-duration">/month</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1" id="enterprise-billed">Billed monthly</p>
+        </div>
+
+        <div
+          class="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+          🎁 14-Day Free Trial
+        </div>
+
+        <div class="flex-1 mb-7">
+          <div class="feature-item"><span class="check">✓</span> Mobile App Access</div>
+          <div class="feature-item"><span class="check">✓</span> Advanced Cattle Breeding Management</div>
+          <div class="feature-item"><span class="check">✓</span> Cattle Boarding</div>
+          <div class="feature-item"><span class="check">✓</span> Data Recording (Milking, Vaccination, Fat & SNF,
+            Diseases)</div>
+          <div class="feature-item"><span class="check">✓</span> Feed Management (Feed & Inventory)</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Management (Shed & Group)</div>
+          <div class="feature-item"><span class="check">✓</span> Employee Management</div>
+          <div class="feature-item"><span class="check">✓</span> Farm Reports (Milk, Breed, Semen, Performance)</div>
+          <div class="feature-item"><span class="check">✓</span> Health Report (Vaccination, Disease, Deworming)</div>
+          <div class="feature-item"><span class="check">✓</span> Expense Tracking (Feed, Vet, Medicine)</div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">5 Users</span> Access</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">200 Cattle</span> Management</div>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <div><span class="font-semibold text-gray-700">10 GB</span> Storage Space</div>
+          </div>
+        </div>
+
+        <a href="auth.html?tab=signup" class="btn-outline">Start Free Trial</a>
+      </div>
+
+    </div>
+
+    <!-- Annual note -->
+    <p id="annual-note" class="text-center text-xs text-gray-400 mt-6" style="display:none">
+      💡 Annual prices shown — billed once per year. You save up to <strong class="text-green-600">₹19198</strong>
+      compared to monthly billing.
+    </p>
+  </section>
+
+  <!-- ===== TRUST STRIP ===== -->
+  <section class="bg-white py-10 px-4 border-y border-gray-100">
+    <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <p class="text-3xl font-extrabold text-orange-500" style="font-family:'Nunito',sans-serif">No. 1</p>
+        <p class="text-xs text-gray-500 mt-1">India's Dairy Software</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-orange-500" style="font-family:'Nunito',sans-serif">14</p>
+        <p class="text-xs text-gray-500 mt-1">Days Free Trial</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-orange-500" style="font-family:'Nunito',sans-serif">0</p>
+        <p class="text-xs text-gray-500 mt-1">Hidden Fees</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-orange-500" style="font-family:'Nunito',sans-serif">24/7</p>
+        <p class="text-xs text-gray-500 mt-1">Enterprise Support</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURE COMPARISON TABLE ===== -->
+  <section class="py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Compare</p>
+        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">Full Feature Comparison</h2>
+        <p class="text-gray-500 mt-3 text-sm">See exactly what's included in each plan.</p>
+      </div>
+
+      <div class="table-wrap shadow-sm">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="text-left text-gray-500 font-semibold text-xs uppercase tracking-widest w-48">Feature</th>
+              <th>
+                <div class="flex flex-col items-center gap-1">
+                  <span class="text-lg">🌱</span>
+                  <span class="text-gray-900">Basic</span>
+                  <span class="text-xs text-gray-400 font-normal">50 Cattle</span>
+                </div>
+              </th>
+              <th class="col-popular-header">
+                <div class="flex flex-col items-center gap-1">
+                  <span class="text-lg">🚀</span>
+                  <span class="text-orange-500">Growth</span>
+                  <span class="text-xs text-orange-400 font-normal">100 Cattle</span>
+                </div>
+              </th>
+              <th>
+                <div class="flex flex-col items-center gap-1">
+                  <span class="text-lg">🏢</span>
+                  <span class="text-gray-900">Enterprise</span>
+                  <span class="text-xs text-gray-400 font-normal">200 Cattle</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Capacity -->
+            <tr class="section-header">
+              <td colspan="4">Capacity & Access</td>
+            </tr>
+            <tr>
+              <td>Max Farmers / Users</td>
+              <td>1</td>
+              <td class="col-popular">2</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>Cattle Limit</td>
+              <td>50</td>
+              <td class="col-popular">100</td>
+              <td>200</td>
+            </tr>
+            <tr>
+              <td>Storage Space</td>
+              <td>2 GB</td>
+              <td class="col-popular">5 GB</td>
+              <td>10 GB</td>
+            </tr>
+            <tr>
+              <td>Mobile App</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>API Access</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-no">—</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+
+            <!-- Core features -->
+            <tr class="section-header">
+              <td colspan="4">Core Farm Features</td>
+            </tr>
+            <tr>
+              <td>Milk Tracking</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Cattle Breeding Management</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Feed Management</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Health & Vaccination Records</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Employee Management</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Expense Tracking</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Cattle Trading</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Delivery Management</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Gaushala Module</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-no">—</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>Auto Payments</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+
+            <!-- Analytics -->
+            <tr class="section-header">
+              <td colspan="4">Analytics & Reports</td>
+            </tr>
+            <tr>
+              <td>Analytics Dashboard</td>
+              <td><span class="text-xs text-gray-500 font-medium">Basic</span></td>
+              <td class="col-popular"><span class="text-xs text-orange-600 font-semibold">Advanced</span></td>
+              <td><span class="text-xs text-purple-600 font-semibold">Custom</span></td>
+            </tr>
+            <tr>
+              <td>Farm Reports</td>
+              <td><span class="ic-yes">✔</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+            <tr>
+              <td>PDF Invoices</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+
+            <!-- Communication -->
+            <tr class="section-header">
+              <td colspan="4">Communication</td>
+            </tr>
+            <tr>
+              <td>SMS / WhatsApp Alerts</td>
+              <td><span class="ic-no">—</span></td>
+              <td class="col-popular"><span class="ic-yes">✔</span></td>
+              <td><span class="ic-yes">✔</span></td>
+            </tr>
+
+            <!-- Support -->
+            <tr class="section-header">
+              <td colspan="4">Support</td>
+            </tr>
+            <tr>
+              <td>Support Type</td>
+              <td><span class="text-xs text-gray-500 font-medium">Email</span></td>
+              <td class="col-popular"><span class="text-xs text-orange-600 font-semibold">Priority Phone</span></td>
+              <td><span class="text-xs text-purple-600 font-semibold">24/7 Dedicated</span></td>
+            </tr>
+
+            <!-- CTA row -->
+            <tr>
+              <td></td>
+              <td class="py-5"><a href="auth.html?tab=signup" class="btn-outline text-sm py-3">Get Started</a></td>
+              <td class="col-popular py-5"><a href="auth.html?tab=signup" class="btn-orange text-sm py-3">Get
+                  Started</a></td>
+              <td class="py-5"><a href="auth.html?tab=signup" class="btn-outline text-sm py-3">Get Started</a></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="bg-white py-20 px-4 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">FAQ</p>
+        <h2 class="text-3xl font-extrabold text-gray-900">Pricing Questions Answered</h2>
+      </div>
+
+      <div id="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I switch plans at any time?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Yes! You can upgrade or downgrade your plan at any point from your account settings.
+            Upgrades take effect immediately; downgrades apply at the next billing cycle.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What happens after the 14-day free trial?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">After your trial ends, you'll be asked to choose a plan. No credit card is required during
+            the trial — we'll never charge you without your explicit consent.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is there a discount for annual billing?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Yes! Switching to annual billing saves you 20% across all plans. Toggle the billing switch
+            above to see annual prices instantly.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I manage more than 200 cattle?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">If your herd exceeds 200 cattle, contact our sales team for a custom Enterprise quote. We
+            support farms of all sizes and can tailor a plan to your specific needs.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Are the IoT devices included in the plans?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">The plans cover the software platform. IoT devices (MastiPro, M2Moo, PartuSense, WashLog)
+            are available as hardware add-ons. Contact us for device pricing and bundled offers.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What payment methods are accepted?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">We accept all major credit/debit cards, UPI, net banking, and bank transfers for annual
+            plans. All transactions are secured with 256-bit SSL encryption.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="bg-orange-500 py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="text-3xl font-extrabold mb-3">Ready to Transform Your Farm?</h2>
+      <p class="text-orange-100 mb-8 text-sm">Join farmers already using DairySync. Start your 14-day free
+        trial — no card required.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="auth.html?tab=signup"
+          class="inline-block bg-white text-orange-600 font-extrabold px-8 py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-md text-sm">Start
+          Free Trial →</a>
+        <a href="contact.html"
+          class="inline-block border-2 border-white text-white font-semibold px-8 py-3 rounded-xl hover:bg-orange-600 transition-colors text-sm">Talk
+          to Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div id="footer"></div>
+
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <script>
+    /* ===== BILLING TOGGLE ===== */
+    const plans = {
+      basic: { monthly: 1999, annual: 19200 },
+      growth: { monthly: 3999, annual: 38390 },
+      enterprise: { monthly: 7999, annual: 76790 },
+    };
+
+    let isAnnual = false;
+
+    function fmt(n) {
+      return n.toLocaleString('en-IN');
+    }
+
+    function switchBilling() {
+      isAnnual = !isAnnual;
+      const toggle = document.getElementById('billing-toggle');
+      toggle.classList.toggle('on', isAnnual);
+
+      // label colours
+      document.getElementById('lbl-monthly').className = `text-sm font-bold ${isAnnual ? 'text-gray-400' : 'text-orange-500'}`;
+      document.getElementById('lbl-annual').className = `text-sm font-bold ${isAnnual ? 'text-orange-500' : 'text-gray-400'}`;
+
+      // animate prices
+      const priceEls = document.querySelectorAll('.price-num');
+      priceEls.forEach(el => el.classList.add('fade'));
+
+      setTimeout(() => {
+        document.getElementById('basic-price').textContent = fmt(isAnnual ? plans.basic.annual : plans.basic.monthly);
+        document.getElementById('growth-price').textContent = fmt(isAnnual ? plans.growth.annual : plans.growth.monthly);
+        document.getElementById('enterprise-price').textContent = fmt(isAnnual ? plans.enterprise.annual : plans.enterprise.monthly);
+
+        const billedText = isAnnual ? 'Billed annually (20% off)' : 'Billed monthly';
+        document.getElementById('basic-billed').textContent = billedText;
+        document.getElementById('growth-billed').textContent = billedText;
+        document.getElementById('enterprise-billed').textContent = billedText;
+
+        const billedDuration = isAnnual ? '/year' : '/month';
+        document.getElementById('basic-duration').textContent = billedDuration;
+        document.getElementById('growth-duration').textContent = billedDuration;
+        document.getElementById('enterprise-duration').textContent = billedDuration;
+
+        priceEls.forEach(el => el.classList.remove('fade'));
+      }, 180);
+
+      document.getElementById('annual-note').style.display = isAnnual ? 'block' : 'none';
+    }
+
+    /* ===== FAQ ACCORDION ===== */
+    function toggleFaq(btn) {
+      const answer = btn.nextElementSibling;
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = answer.classList.contains('open');
+
+      // close all
+      document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.classList.add('open');
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services | DairySync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-dark: #ea6c0a;
+      --orange-light: #fff7ed;
+      --green: #22c55e;
+      --green-light: #f0fdf4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      color: #1f2937;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ---- Navbar ---- */
+    .dropdown-menu {
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    /* ---- Hero ---- */
+    .services-hero {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 35%, #ecfdf5 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 60%, rgba(249, 115, 22, .09) 0%, transparent 55%),
+        radial-gradient(circle at 90% 15%, rgba(34, 197, 94, .09) 0%, transparent 55%);
+    }
+
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0, 0, 0, .06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .services-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: linear-gradient(to bottom, transparent, #f9fafb);
+    }
+
+    /* ---- Section label ---- */
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    /* ---- Service cards ---- */
+    .service-card {
+      background: white;
+      border-radius: 22px;
+      border: 1.5px solid #f3f4f6;
+      padding: 28px;
+      transition: transform .22s, box-shadow .22s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-accent, #e5e7eb);
+      border-radius: 22px 22px 0 0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, .09);
+    }
+
+    /* ---- Feature list ---- */
+    .feat {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: #4b5563;
+      padding: 6px 0;
+      border-bottom: 1px solid #f9fafb;
+    }
+
+    .feat:last-child {
+      border-bottom: none;
+    }
+
+    .feat-check {
+      color: var(--green);
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 13px;
+    }
+
+    /* ---- How it works timeline ---- */
+    .timeline-step {
+      display: flex;
+      gap: 20px;
+    }
+
+    .timeline-step:not(:last-child) .step-line {
+      flex: 1;
+    }
+
+    .step-num {
+      width: 44px;
+      height: 44px;
+      background: var(--orange);
+      color: white;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, .35);
+    }
+
+    .step-connector {
+      width: 2px;
+      background: #f3f4f6;
+      margin: 8px auto;
+      flex-grow: 1;
+      min-height: 32px;
+    }
+
+    /* ---- Entity badge ---- */
+    .entity-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: white;
+      border: 1.5px solid #f3f4f6;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      transition: border-color .2s, color .2s, box-shadow .2s;
+      cursor: default;
+    }
+
+    .entity-badge:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      box-shadow: 0 4px 14px rgba(249, 115, 22, .12);
+    }
+
+    /* ---- Stat strip ---- */
+    .stat-card {
+      background: white;
+      border-radius: 18px;
+      border: 1.5px solid #f3f4f6;
+      padding: 22px 18px;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    }
+
+    /* ---- Problem / solution grid ---- */
+    .prob-card {
+      background: #fff5f5;
+      border-radius: 16px;
+      border: 1.5px solid #fee2e2;
+      padding: 18px 20px;
+      font-size: 13px;
+      color: #dc2626;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .sol-card {
+      background: var(--green-light);
+      border-radius: 16px;
+      border: 1.5px solid #bbf7d0;
+      padding: 18px 20px;
+      font-size: 13px;
+      color: #15803d;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    /* ---- Integration strip ---- */
+    .int-chip {
+      background: white;
+      border: 1.5px solid #f3f4f6;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+    }
+
+    .int-chip:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    /* ---- CTA buttons ---- */
+    .btn-orange {
+      background: var(--orange);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      padding: 14px 32px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(249, 115, 22, .35);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-orange:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, .4);
+    }
+
+    .btn-outline {
+      background: white;
+      color: #374151;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      padding: 14px 32px;
+      border-radius: 14px;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      font-size: 15px;
+      transition: border-color .2s, color .2s, transform .15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Fade up ---- */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .55s ease forwards;
+    }
+
+    .d1 {
+      animation-delay: .10s;
+      opacity: 0;
+    }
+
+    .d2 {
+      animation-delay: .20s;
+      opacity: 0;
+    }
+
+    .d3 {
+      animation-delay: .30s;
+      opacity: 0;
+    }
+
+    .d4 {
+      animation-delay: .40s;
+      opacity: 0;
+    }
+
+    /* ---- Scrolling ticker ---- */
+    @keyframes ticker {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .ticker-inner {
+      display: flex;
+      animation: ticker 28s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+    }
+
+    /* ---- Tab for services ---- */
+    .svc-tab {
+      padding: 9px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      border: 1.5px solid #e5e7eb;
+      background: white;
+      color: #6b7280;
+    }
+
+    .svc-tab.active,
+    .svc-tab:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+    }
+
+    .svc-panel {
+      display: none;
+    }
+
+    .svc-panel.active {
+      display: grid;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <div id="header"></div>
+
+  <script>
+    fetch("header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <!-- ===== TICKER ===== -->
+  <div class="bg-orange-500 py-2.5 ticker-wrap">
+    <div class="ticker-inner text-white text-xs font-semibold gap-12" style="gap:0">
+      <span class="px-8">🐄 Dairy Farm Management</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">💊 Health & Vaccination Tracking</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🌾 Feed & Inventory Control</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🥛 Milk Production Analytics</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">📊 Farm Performance Reports</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">👨‍⚕️ Veterinary Visit Records</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🔔 Automated Alerts</span><span class="px-2 opacity-40">|</span>
+      <!-- duplicate for seamless loop -->
+      <span class="px-8">🐄 Dairy Farm Management</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">💊 Health & Vaccination Tracking</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🌾 Feed & Inventory Control</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🥛 Milk Production Analytics</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">📊 Farm Performance Reports</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">👨‍⚕️ Veterinary Visit Records</span><span class="px-2 opacity-40">|</span>
+      <span class="px-8">🔔 Automated Alerts</span><span class="px-2 opacity-40">|</span>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="services-hero pt-20 pb-36 px-4 relative">
+    <div class="hero-dots"></div>
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <div
+        class="fade-up inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-xs font-semibold px-4 py-2 rounded-full mb-6">
+        🛠️ Integrated Farm Management Services
+      </div>
+      <h1 class="fade-up d1 text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-5">
+        One Platform. Every Dairy<br><span class="text-orange-500">Operation Covered.</span>
+      </h1>
+      <p class="fade-up d2 text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+        DairySync digitizes and centralizes all your dairy farm operations — from animal profiles and feed tracking
+        to milk yield analytics and health records — giving you a single, reliable source of truth for every decision.
+      </p>
+      <div class="fade-up d3 flex flex-wrap justify-center gap-4">
+        <a href="#" class="btn-orange">Start Free Trial →</a>
+        <a href="#services" class="btn-outline">Explore Services ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROBLEM → SOLUTION ===== -->
+  <section class="max-w-7xl mx-auto px-4 -mt-16 pb-20 relative z-10" id="services">
+    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 lg:p-12">
+      <div class="text-center mb-10">
+        <span class="section-label">Why DairySync?</span>
+        <h2 class="text-2xl lg:text-3xl font-extrabold text-gray-900">The Old Way vs. The DairySync Way</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <!-- Problems -->
+        <div class="space-y-3">
+          <p class="text-xs font-bold text-red-500 uppercase tracking-widest mb-4 flex items-center gap-2"><span
+              class="text-base">❌</span> Traditional Farm Pain Points</p>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">📋</span>Paper records & isolated
+            spreadsheets make data hard to access and prone to errors.</div>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">🐄</span>No unified view of individual
+            animal health histories and breeding records.</div>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">🌾</span>Feed usage and stock levels are
+            difficult to monitor accurately in real time.</div>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">🥛</span>Inaccurate milk production
+            records lead to poor herd performance decisions.</div>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">🔗</span>Farm activities are siloed — no
+            integration between health, feed, and production.</div>
+          <div class="prob-card"><span class="mt-0.5 text-base flex-shrink-0">📊</span>Generating meaningful reports
+            requires hours of manual data compilation.</div>
+        </div>
+        <!-- Solutions -->
+        <div class="space-y-3">
+          <p class="text-xs font-bold text-green-600 uppercase tracking-widest mb-4 flex items-center gap-2"><span
+              class="text-base">✅</span> DairySync Solutions</p>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">☁️</span>Centralized cloud database — one
+            reliable source of truth for all farm data.</div>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">🏷️</span>Unique animal tag profiles with
+            complete lifetime health and breeding histories.</div>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">📦</span>Real-time feed inventory tracking
+            matched against daily consumption patterns.</div>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">📈</span>Morning & evening milk yield
+            records per animal with automatic totals.</div>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">🔄</span>Fully integrated platform —
+            health, feed, milk, and financials in one view.</div>
+          <div class="sol-card"><span class="mt-0.5 text-base flex-shrink-0">⚡</span>One-click reports on production,
+            feed, vaccinations, and animal health.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CORE SERVICES ===== -->
+  <section class="py-6 pb-24 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-6">
+        <span class="section-label">Core Services</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3">Everything Your Farm Needs</h2>
+        <p class="text-gray-500 text-sm max-w-xl mx-auto">Six integrated service pillars covering every aspect of modern
+          dairy farm management.</p>
+      </div>
+
+      <!-- Service tabs -->
+      <div class="flex flex-wrap justify-center gap-2 mb-10">
+        <button class="svc-tab active" onclick="showPanel('farmer')">👨‍🌾 Farmer & Farm</button>
+        <button class="svc-tab" onclick="showPanel('animal')">🐄 Animal Management</button>
+        <button class="svc-tab" onclick="showPanel('feed')">🌾 Feed Management</button>
+        <button class="svc-tab" onclick="showPanel('health')">💊 Health Tracking</button>
+        <button class="svc-tab" onclick="showPanel('milk')">🥛 Milk Production</button>
+        <button class="svc-tab" onclick="showPanel('reports')">📊 Reports</button>
+      </div>
+
+      <!-- Panel: Farmer & Farm -->
+      <div class="svc-panel active grid md:grid-cols-2 gap-6" id="panel-farmer">
+        <div class="service-card" style="--card-accent:#f97316">
+          <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl mb-5">👨‍🌾</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Farmer Management</h3>
+          <p class="text-gray-400 text-xs mb-5">Register and manage every farmer and their ownership records in one
+            place.</p>
+          <div class="feat"><span class="feat-check">✓</span> Register and manage farmer profiles (name, phone, email,
+            address)</div>
+          <div class="feat"><span class="feat-check">✓</span> Track ownership of one or more farms per farmer</div>
+          <div class="feat"><span class="feat-check">✓</span> Multi-farm dashboard for enterprise-scale operations</div>
+          <div class="feat"><span class="feat-check">✓</span> Role-based access control per farm</div>
+          <div class="feat"><span class="feat-check">✓</span> Employee assignment and task tracking</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f97316">
+          <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl mb-5">🏡</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Farm Management</h3>
+          <p class="text-gray-400 text-xs mb-5">Create and maintain detailed farm records including location and area
+            data.</p>
+          <div class="feat"><span class="feat-check">✓</span> Create and manage farm records with location & area info
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Shed and group management for cattle organisation</div>
+          <div class="feat"><span class="feat-check">✓</span> Assign animals to specific farms and groups</div>
+          <div class="feat"><span class="feat-check">✓</span> Farm-wide performance overview dashboard</div>
+          <div class="feat"><span class="feat-check">✓</span> Multi-location support for large operations</div>
+        </div>
+      </div>
+
+      <!-- Panel: Animal -->
+      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-animal">
+        <div class="service-card" style="--card-accent:#3b82f6">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-5">🐄</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Animal Profiles</h3>
+          <p class="text-gray-400 text-xs mb-5">Every animal gets a full digital profile from arrival to retirement.</p>
+          <div class="feat"><span class="feat-check">✓</span> Register animals with unique TagNumber upon arrival or
+            birth</div>
+          <div class="feat"><span class="feat-check">✓</span> Record breed, gender, DOB, weight, and purchase details
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Lifetime profile — health, milk, feed, and breeding
+            history</div>
+          <div class="feat"><span class="feat-check">✓</span> Cattle boarding and group assignment</div>
+          <div class="feat"><span class="feat-check">✓</span> Transfer animals between farms with full history retention
+          </div>
+        </div>
+        <div class="service-card" style="--card-accent:#3b82f6">
+          <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-2xl mb-5">🧬</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Breed Management</h3>
+          <p class="text-gray-400 text-xs mb-5">Classify animals and benchmark against breed-specific performance
+            targets.</p>
+          <div class="feat"><span class="feat-check">✓</span> Register breeds with name, origin, and average milk yield
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Classify every animal under exactly one breed</div>
+          <div class="feat"><span class="feat-check">✓</span> Compare actual vs. breed-average milk performance</div>
+          <div class="feat"><span class="feat-check">✓</span> Breeding event tracking (semen, insemination, gestation)
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Advanced cattle breeding management with records</div>
+        </div>
+      </div>
+
+      <!-- Panel: Feed -->
+      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-feed">
+        <div class="service-card" style="--card-accent:#22c55e">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-5">🌾</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Feed Catalogue & Inventory</h3>
+          <p class="text-gray-400 text-xs mb-5">Maintain a complete library of feed types and track your stock in real
+            time.</p>
+          <div class="feat"><span class="feat-check">✓</span> Manage feed categories and types (FeedCategory, Feed)
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Track cost per unit and unit of measurement</div>
+          <div class="feat"><span class="feat-check">✓</span> Real-time FeedStock inventory with last-updated timestamp
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Low-stock alerts and reorder notifications</div>
+          <div class="feat"><span class="feat-check">✓</span> Feed cost analysis and budget tracking</div>
+        </div>
+        <div class="service-card" style="--card-accent:#22c55e">
+          <div class="w-12 h-12 bg-lime-100 rounded-xl flex items-center justify-center text-2xl mb-5">🥣</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Feed Consumption Tracking</h3>
+          <p class="text-gray-400 text-xs mb-5">Record exactly what every animal eats, every day, and how it impacts
+            milk output.</p>
+          <div class="feat"><span class="feat-check">✓</span> Daily feed consumption records per individual animal</div>
+          <div class="feat"><span class="feat-check">✓</span> Associative link: animal → feed type → quantity → date
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Correlate feed patterns with milk production trends</div>
+          <div class="feat"><span class="feat-check">✓</span> Ration planning — optimise feed for maximum yield</div>
+          <div class="feat"><span class="feat-check">✓</span> Feed expense tracking (feed, vet, medicine, farm costs)
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Health -->
+      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-health">
+        <div class="service-card" style="--card-accent:#ef4444">
+          <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl mb-5">💉</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Vaccination Management</h3>
+          <p class="text-gray-400 text-xs mb-5">Never miss a vaccination with automated scheduling and due-date alerts.
+          </p>
+          <div class="feat"><span class="feat-check">✓</span> Record vaccination name, date administered, and next due
+            date</div>
+          <div class="feat"><span class="feat-check">✓</span> Per-animal vaccination history across their full lifespan
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Upcoming vaccination calendar and reminders</div>
+          <div class="feat"><span class="feat-check">✓</span> Deworming schedule and compliance tracking</div>
+          <div class="feat"><span class="feat-check">✓</span> Herd-wide vaccination status overview</div>
+        </div>
+        <div class="service-card" style="--card-accent:#ef4444">
+          <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-2xl mb-5">🩺</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Veterinary Visit Records</h3>
+          <p class="text-gray-400 text-xs mb-5">Maintain a complete medical history for every animal — accessible in
+            seconds.</p>
+          <div class="feat"><span class="feat-check">✓</span> Log vet visits: doctor name, date, diagnosis, and
+            treatment</div>
+          <div class="feat"><span class="feat-check">✓</span> Multiple visits recorded per animal over its lifetime
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Disease tracking and treatment outcome history</div>
+          <div class="feat"><span class="feat-check">✓</span> Medicine expense integration with cost tracking</div>
+          <div class="feat"><span class="feat-check">✓</span> Health alerts for at-risk or under-performing animals
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Milk -->
+      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-milk">
+        <div class="service-card" style="--card-accent:#6366f1">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-5">🥛</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Daily Milk Production</h3>
+          <p class="text-gray-400 text-xs mb-5">Capture and analyse every milking session — morning and evening — per
+            animal.</p>
+          <div class="feat"><span class="feat-check">✓</span> Record morning and evening milk yield per animal per day
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> TotalMilk auto-calculated (MorningMilk + EveningMilk)
+          </div>
+          <div class="feat"><span class="feat-check">✓</span> Full production history with date-stamped records</div>
+          <div class="feat"><span class="feat-check">✓</span> Fat (%) and SNF recording alongside yield data</div>
+          <div class="feat"><span class="feat-check">✓</span> Individual animal performance trend charts</div>
+        </div>
+        <div class="service-card" style="--card-accent:#6366f1">
+          <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-2xl mb-5">📈</div>
+          <h3 class="text-lg font-extrabold text-gray-900 mb-1">Production Analytics</h3>
+          <p class="text-gray-400 text-xs mb-5">Identify top performers and spot underperformers before they impact your
+            farm.</p>
+          <div class="feat"><span class="feat-check">✓</span> Farm-wide daily and monthly production dashboards</div>
+          <div class="feat"><span class="feat-check">✓</span> Top-performing animal ranking by yield</div>
+          <div class="feat"><span class="feat-check">✓</span> Breed-vs-actual performance comparison</div>
+          <div class="feat"><span class="feat-check">✓</span> Feed-to-milk efficiency ratio analysis</div>
+          <div class="feat"><span class="feat-check">✓</span> Production drop detection with automatic alerts</div>
+        </div>
+      </div>
+
+      <!-- Panel: Reports -->
+      <div class="svc-panel grid md:grid-cols-3 gap-5" id="panel-reports">
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl mb-4">🥛</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Milk Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Daily, weekly, and monthly milk production summaries by animal, group,
+            or whole farm.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Per-animal production history</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Farm-wide totals and trends</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Fat & SNF quality reports</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl mb-4">🌾</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Feed Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Track feed consumption against inventory to eliminate waste and reduce
+            costs.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Feed consumption by animal/date</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Inventory status overview</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Cost-per-litre feed efficiency</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl mb-4">💉</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Health Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Complete health audit trails — vaccinations, diseases, treatments, and
+            deworming.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Vaccination compliance report</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Disease & treatment history</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Deworming schedule status</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-4">🧬</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Breed Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Analyse breeding events and benchmark each animal against breed
+            performance averages.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Semen and insemination records</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Breed-average comparisons</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Gestation and calving calendar</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-4">💰</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Expense Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Track every rupee spent — feed, vet, medicine, and farm costs against
+            your income.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Category-wise expense breakdown</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Monthly P&L overview</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Cost-per-animal analysis</div>
+        </div>
+        <div class="service-card" style="--card-accent:#f59e0b">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-4">⚡</div>
+          <h3 class="font-extrabold text-gray-900 mb-2">Performance Reports</h3>
+          <p class="text-gray-400 text-xs mb-4">Get a holistic view of herd performance combining milk, health, and feed
+            efficiency.</p>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Top-performing animals ranking</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Underperformer identification</div>
+          <div class="feat text-xs"><span class="feat-check">✓</span> Feed-to-milk efficiency score</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATA MODEL ENTITIES ===== -->
+  <section class="bg-white py-20 px-4 border-y border-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="section-label">System Architecture</span>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-3">Built on a Rock-Solid Data Foundation</h2>
+        <p class="text-gray-500 text-sm max-w-xl mx-auto">DairySync's database is fully normalised and designed
+          around 10 core entities — ensuring zero data redundancy and maximum performance.</p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <div class="entity-badge"><span class="text-orange-500">👨‍🌾</span> Farmer</div>
+        <div class="entity-badge"><span class="text-yellow-500">🏡</span> Farm</div>
+        <div class="entity-badge"><span class="text-blue-500">🐄</span> Animal</div>
+        <div class="entity-badge"><span class="text-indigo-500">🧬</span> Breed</div>
+        <div class="entity-badge"><span class="text-red-500">💉</span> Vaccination</div>
+        <div class="entity-badge"><span class="text-rose-500">🩺</span> VeterinaryVisit</div>
+        <div class="entity-badge"><span class="text-purple-500">🥛</span> MilkProduction</div>
+        <div class="entity-badge"><span class="text-green-500">🥣</span> FeedConsumption</div>
+        <div class="entity-badge"><span class="text-lime-600">🌾</span> Feed + FeedCategory</div>
+        <div class="entity-badge"><span class="text-teal-500">📦</span> FeedStock</div>
+      </div>
+
+      <!-- Business rules -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-orange-600 uppercase tracking-wide mb-2">Ownership Rule</p>
+          <p class="text-sm text-gray-600">Each Farmer can own one or more Farms, but every Farm should belongs to
+            atleast one
+            Farmer — ensuring clear accountability.</p>
+        </div>
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-blue-600 uppercase tracking-wide mb-2">Farm–Animal Rule</p>
+          <p class="text-sm text-gray-600">A Farm can house multiple Animals, but each Animal is maintained at one
+            specific Farm at a time — no ambiguous locations.</p>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-indigo-600 uppercase tracking-wide mb-2">Breed Classification</p>
+          <p class="text-sm text-gray-600">Every Animal must be classified under exactly one Breed, enabling consistent
+            performance benchmarking across your herd.</p>
+        </div>
+        <div class="bg-red-50 border border-red-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-red-600 uppercase tracking-wide mb-2">Health History</p>
+          <p class="text-sm text-gray-600">An Animal can undergo multiple VeterinaryVisits and receive multiple
+            Vaccinations — complete lifetime medical records, always accessible.</p>
+        </div>
+        <div class="bg-purple-50 border border-purple-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-purple-600 uppercase tracking-wide mb-2">Milk Recording Rule</p>
+          <p class="text-sm text-gray-600">MilkProduction is tied to an individual animal and recorded twice daily.
+            TotalMilk = MorningMilk + EveningMilk — automatically computed.</p>
+        </div>
+        <div class="bg-green-50 border border-green-100 rounded-2xl p-5">
+          <p class="text-xs font-bold text-green-600 uppercase tracking-wide mb-2">Feed Integrity Rule</p>
+          <p class="text-sm text-gray-600">Feed products must belong to a FeedCategory and maintain a FeedStock record.
+            FeedConsumption links animal, feed, quantity, and date — no gaps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="py-20 px-4 bg-gray-50">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="section-label">How It Works</span>
+        <h2 class="text-3xl font-extrabold text-gray-900">Up and Running in Minutes</h2>
+      </div>
+
+      <div class="space-y-0">
+        <!-- Step 1 -->
+        <div class="timeline-step">
+          <div class="flex flex-col items-center">
+            <div class="step-num">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 pt-1 pl-4 flex-1">
+            <h3 class="font-extrabold text-gray-900 text-lg mb-1">Create Your Farm Profile</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-3">Sign up and register your farmer profile, then create
+              your farm(s) with location and area details. Add as many farms as you manage — all in one account.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="int-chip">👨‍🌾 Farmer registration</span>
+              <span class="int-chip">🏡 Farm setup</span>
+              <span class="int-chip">📍 Location mapping</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-step">
+          <div class="flex flex-col items-center">
+            <div class="step-num">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 pt-1 pl-4 flex-1">
+            <h3 class="font-extrabold text-gray-900 text-lg mb-1">Register Your Herd</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-3">Add each animal with its unique tag number, breed,
+              weight, gender, and date of birth. Assign animals to sheds and groups. Import existing records in bulk via
+              CSV.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="int-chip">🏷️ Tag number setup</span>
+              <span class="int-chip">🧬 Breed classification</span>
+              <span class="int-chip">📋 Bulk CSV import</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-step">
+          <div class="flex flex-col items-center">
+            <div class="step-num">3</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 pt-1 pl-4 flex-1">
+            <h3 class="font-extrabold text-gray-900 text-lg mb-1">Configure Feed & Inventory</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-3">Set up your feed catalogue with categories, types, and
+              costs. Enter current stock levels — DairySync will track every consumption event and alert you when
+              stock runs low.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="int-chip">🌾 Feed catalogue</span>
+              <span class="int-chip">📦 Stock levels</span>
+              <span class="int-chip">🔔 Low-stock alerts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-step">
+          <div class="flex flex-col items-center">
+            <div class="step-num">4</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 pt-1 pl-4 flex-1">
+            <h3 class="font-extrabold text-gray-900 text-lg mb-1">Record Daily Operations</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-3">Log morning and evening milk yields, daily feed
+              consumption, and any health events from the mobile app. Takes less than 5 minutes per session.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="int-chip">🥛 Milk recording</span>
+              <span class="int-chip">🥣 Feed logging</span>
+              <span class="int-chip">📱 Mobile app</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="timeline-step">
+          <div class="flex flex-col items-center">
+            <div class="step-num">5</div>
+          </div>
+          <div class="pb-2 pt-1 pl-4 flex-1">
+            <h3 class="font-extrabold text-gray-900 text-lg mb-1">Generate Reports & Optimise</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-3">One-click reports on milk production, feed efficiency,
+              health compliance, and financial performance. Identify top performers, cut costs, and make smarter
+              decisions — every day.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="int-chip">📊 One-click reports</span>
+              <span class="int-chip">💡 Smart insights</span>
+              <span class="int-chip">📈 Performance trends</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="bg-white py-16 px-4 border-y border-gray-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div class="stat-card">
+        <div class="text-3xl mb-2">🐄</div>
+        <p class="text-3xl font-black text-orange-500" style="font-family:'Nunito',sans-serif">No.1</p>
+        <p class="text-xs text-gray-500 mt-1">India's Dairy Software</p>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl mb-2">🥛</div>
+        <p class="text-3xl font-black text-orange-500" style="font-family:'Nunito',sans-serif">2M+</p>
+        <p class="text-xs text-gray-500 mt-1">Milk Records Daily</p>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl mb-2">💉</div>
+        <p class="text-3xl font-black text-orange-500" style="font-family:'Nunito',sans-serif">98%</p>
+        <p class="text-xs text-gray-500 mt-1">Vaccination Compliance</p>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl mb-2">⏱️</div>
+        <p class="text-3xl font-black text-orange-500" style="font-family:'Nunito',sans-serif">3 hrs</p>
+        <p class="text-xs text-gray-500 mt-1">Saved Per Day Per Farm</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTEGRATIONS ===== -->
+  <section class="py-20 px-4 bg-gray-50">
+    <div class="max-w-5xl mx-auto text-center">
+      <span class="section-label">Integrations & Tech</span>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-3">Powered by Modern Technology</h2>
+      <p class="text-gray-500 text-sm max-w-xl mx-auto mb-10">DairySync's architecture supports advanced database
+        features for performance at any scale.</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="int-chip">📱 iOS & Android App</span>
+        <span class="int-chip">☁️ Cloud Database</span>
+        <span class="int-chip">🔄 Real-time Sync</span>
+        <span class="int-chip">📡 IoT Device Integration</span>
+        <span class="int-chip">💬 Slack Integration</span>
+        <span class="int-chip">📋 Trello Integration</span>
+        <span class="int-chip">📊 Advanced Analytics</span>
+        <span class="int-chip">🔒 Role-based Access</span>
+        <span class="int-chip">📄 PDF Report Export</span>
+        <span class="int-chip">📥 CSV Import / Export</span>
+        <span class="int-chip">🔔 SMS / WhatsApp Alerts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="bg-orange-500 py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="text-3xl font-extrabold mb-3">Ready to Digitise Your Farm?</h2>
+      <p class="text-orange-100 mb-8 text-sm">Join farmers who have replaced paper records with DairySync's
+        integrated platform. Start your 14-day free trial today.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="auth.html?tab=signup"
+          class="inline-block bg-white text-orange-600 font-extrabold px-8 py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-md text-sm">Start
+          Free Trial →</a>
+        <a href="contact.html"
+          class="inline-block border-2 border-white text-white font-semibold px-8 py-3 rounded-xl hover:bg-orange-600 transition-colors text-sm">Talk
+          to an Expert</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div id="footer"></div>
+
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <script>
+    function showPanel(id) {
+      document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.svc-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+
+</html>

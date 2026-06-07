@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DairySync | Dairy & Cattle Management Software</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* Hero animated farm scene placeholder */
+    .hero-scene {
+      background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 40%, #e3f2fd 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-scene::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Soft card hover */
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Nav dropdown */
+    .dropdown-menu {
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    /* Tab active state */
+    .tab-btn.active {
+      border-bottom: 3px solid #f97316;
+      color: #f97316;
+      font-weight: 700;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    /* Testimonial card */
+    .testimonial-card {
+      background: white;
+      border-left: 4px solid #f97316;
+    }
+
+    /* Fade-in */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+  <!-- ===== NAVBAR ===== -->
+
+  <div id="header"></div>
+
+  <script>
+    fetch("header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+
+  <!-- ===== HERO ===== -->
+  <section class="hero-scene py-20 lg:py-28 px-4">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Text -->
+      <div class="fade-up">
+        <div
+          class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+          🌾 India’s No.1 Dairy Management Software
+        </div>
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
+          Comprehensive Cattle Management for
+          <span class="text-orange-500"> Sustainable Efficiency</span>
+        </h1>
+        <p class="text-gray-600 text-lg leading-relaxed mb-8">
+          DairySync simplifies farm management, boosting the efficiency of dairy and beef cattle operations — with
+          gestation tracking, milk production management, nutrition planning, and health management.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="auth.html?tab=signup"
+            class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl transition-colors shadow-md text-sm">
+            Start for Free →
+          </a>
+          <!-- <a href="#"
+            class="border-2 border-gray-300 hover:border-orange-400 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
+            Watch Demo
+          </a> -->
+        </div>
+
+
+      </div>
+
+      <!-- Illustration placeholder / stats -->
+      <div class="relative">
+        <!-- Farm scene SVG illustration -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-green-50 rounded-2xl p-4 text-center">
+              <p class="text-3xl font-extrabold text-green-600">NO. 1</p>
+              <p class="text-xs text-gray-500 mt-1">India’s Dairy Management Software</p>
+            </div>
+            <div class="bg-orange-50 rounded-2xl p-4 text-center">
+              <p class="text-3xl font-extrabold text-orange-500">10+</p>
+              <p class="text-xs text-gray-500 mt-1">Smart Alerts</p>
+            </div>
+            <div class="bg-blue-50 rounded-2xl p-4 text-center">
+              <p class="text-3xl font-extrabold text-blue-500">15+</p>
+              <p class="text-xs text-gray-500 mt-1">Reports Generated</p>
+            </div>
+            <div class="bg-purple-50 rounded-2xl p-4 text-center">
+              <p class="text-3xl font-extrabold text-purple-500">4</p>
+              <p class="text-xs text-gray-500 mt-1">Smart Devices</p>
+            </div>
+          </div>
+          <!-- Dashboard mock -->
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <p class="text-xs font-semibold text-gray-400 mb-3">Milk Production Dashboard</p>
+            <div class="flex items-end gap-2 h-16">
+              <div class="flex-1 bg-orange-200 rounded-t" style="height:60%"></div>
+              <div class="flex-1 bg-orange-300 rounded-t" style="height:75%"></div>
+              <div class="flex-1 bg-orange-400 rounded-t" style="height:55%"></div>
+              <div class="flex-1 bg-orange-500 rounded-t" style="height:90%"></div>
+              <div class="flex-1 bg-orange-400 rounded-t" style="height:80%"></div>
+              <div class="flex-1 bg-orange-300 rounded-t" style="height:70%"></div>
+              <div class="flex-1 bg-orange-500 rounded-t" style="height:100%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-400 mt-2">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+        </div>
+        <!-- Floating badges -->
+        <div class="absolute -top-4 -right-4 bg-orange-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg">
+          ✓ Real-time alerts
+        </div>
+        <div
+          class="absolute -bottom-4 -left-4 bg-green-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg">
+          🐄 Health monitoring
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOLUTIONS ===== -->
+  <section class="py-20 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Solutions</p>
+        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">Innovative Management Solutions</h2>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">For dairy farms, beef farms, and breeding operations — all in one
+          platform.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Dairy -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-5">🐄</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Dairy Farm Operations</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5">Advanced milk yield tracking, mastitis monitoring, and
+            health management for dairy operations of all sizes.</p>
+        </div>
+        <!-- Beef -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-5">🌾</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Feed Management</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5">Manage feed inventory, categories, stock levels, costs,
+            and daily animal feed consumption while monitoring feeding patterns and their impact on milk production to
+            optimize nutrition, productivity, and farm efficiency.</p>
+
+        </div>
+        <!-- Cow Calf -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+          <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl mb-5">🐮</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Animal Health Management</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5">Maintain comprehensive health records for every animal
+            by tracking vaccinations, deworming schedules, veterinary visits, diagnoses, treatments, and medical
+            history, ensuring timely care, disease prevention, and improved herd health management.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEVICES ===== -->
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Smart Devices</p>
+        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">Cutting-Edge Dairy Farming Technology</h2>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">IoT devices that bring precision and health monitoring to your
+          operations.</p>
+      </div>
+
+      <!-- Tab navigation -->
+      <div class="flex gap-6 border-b border-gray-200 mb-10 overflow-x-auto">
+        <button onclick="switchTab('mastitis')" id="tab-mastitis"
+          class="tab-btn active pb-3 text-sm font-semibold whitespace-nowrap text-gray-500">Mastitis Detection</button>
+        <button onclick="switchTab('washlog')" id="tab-washlog"
+          class="tab-btn pb-3 text-sm font-semibold whitespace-nowrap text-gray-500">WashLog</button>
+        <button onclick="switchTab('m2moo')" id="tab-m2moo"
+          class="tab-btn pb-3 text-sm font-semibold whitespace-nowrap text-gray-500">M2Moo</button>
+        <button onclick="switchTab('partusense')" id="tab-partusense"
+          class="tab-btn pb-3 text-sm font-semibold whitespace-nowrap text-gray-500">PartuSense</button>
+      </div>
+
+      <!-- Tab contents -->
+      <div id="content-mastitis" class="tab-content active flex-col md:flex-row gap-10 items-center">
+        <div class="flex-1">
+          <span
+            class="inline-block bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mb-4">Mastitis
+            Detection</span>
+          <h3 class="text-2xl font-extrabold text-gray-900 mb-4">Fully Automated Mastitis Detection During Every Milking
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-6">The Automated Mastitis Test Device is an electronic gadget that
+            identifies mastitis in dairy cattle. It fits on any milking machine, acting as a sentinel safeguarding the
+            cow's udder — automatically, at every single milking.</p>
+          <ul class="space-y-2 text-sm text-gray-600 mb-6">
+            <li class="flex gap-2"><span class="text-green-500">✓</span> Compatible with all milking machines</li>
+            <li class="flex gap-2"><span class="text-green-500">✓</span> Real-time alerts sent to mobile app</li>
+            <li class="flex gap-2"><span class="text-green-500">✓</span> Early detection reduces treatment costs</li>
+          </ul>
+
+        </div>
+        <div class="flex-1 bg-orange-50 rounded-3xl p-8 text-center">
+          <div class="text-8xl mb-4">🔬</div>
+          <p class="text-orange-600 font-bold text-lg">MastiPro</p>
+          <p class="text-gray-500 text-sm mt-1">Smart Mastitis Detection</p>
+        </div>
+      </div>
+
+      <div id="content-washlog" class="tab-content flex-col md:flex-row gap-10 items-center">
+        <div class="flex-1">
+          <span
+            class="inline-block bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full mb-4">WashLog</span>
+          <h3 class="text-2xl font-extrabold text-gray-900 mb-4">Smart Washing Quality Monitoring for Milking Parlors
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-6">WashLog monitors the post-milking washing process across all
+            milking systems. A wireless, battery-operated device that provides data via Bluetooth — compatible with all
+            milking parlors.</p>
+
+        </div>
+        <div class="flex-1 bg-blue-50 rounded-3xl p-8 text-center">
+          <div class="text-8xl mb-4">🚿</div>
+          <p class="text-blue-600 font-bold text-lg">WashLog</p>
+          <p class="text-gray-500 text-sm mt-1">Washing Quality Monitoring</p>
+        </div>
+      </div>
+
+      <div id="content-m2moo" class="tab-content flex-col md:flex-row gap-10 items-center">
+        <div class="flex-1">
+          <span
+            class="inline-block bg-green-100 text-green-600 text-xs font-bold px-3 py-1 rounded-full mb-4">M2Moo</span>
+          <h3 class="text-2xl font-extrabold text-gray-900 mb-4">Advanced Heat Detection System</h3>
+          <p class="text-gray-600 leading-relaxed mb-6">M2Moo records all movements made by the attached cow and
+            transfers data via a reader device. The system analyzes past movement habits to detect heat signs and
+            notifies designated personnel via mobile app instantly.</p>
+
+        </div>
+        <div class="flex-1 bg-green-50 rounded-3xl p-8 text-center">
+          <div class="text-8xl mb-4">📡</div>
+          <p class="text-green-600 font-bold text-lg">M2Moo</p>
+          <p class="text-gray-500 text-sm mt-1">Heat Detection System</p>
+        </div>
+      </div>
+
+      <div id="content-partusense" class="tab-content flex-col md:flex-row gap-10 items-center">
+        <div class="flex-1">
+          <span
+            class="inline-block bg-purple-100 text-purple-600 text-xs font-bold px-3 py-1 rounded-full mb-4">PartuSense</span>
+          <h3 class="text-2xl font-extrabold text-gray-900 mb-4">Birth Detection Device — The Best Start for Your Calves
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-6">PartuSense lets you estimate when birth will occur and detect
+            the exact moment of calving — with zero external intervention on the animals, no stress. Dramatically reduce
+            stillbirths and calf losses.</p>
+
+        </div>
+        <div class="flex-1 bg-purple-50 rounded-3xl p-8 text-center">
+          <div class="text-8xl mb-4">🐣</div>
+          <p class="text-purple-600 font-bold text-lg">PartuSense</p>
+          <p class="text-gray-500 text-sm mt-1">Calving Sensor</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Reviews</p>
+        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">What Farmers Say</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="testimonial-card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center gap-1 text-yellow-400 text-sm mb-4">★★★★★</div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-5">"DairySync has been a game-changer on my small farm in
+            Moodibidri, Karnataka, India. The calendar and health modules streamline daily tasks and vaccination
+            tracking. The ration
+            module helps me calculate the best feed for my cows."</p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-9 h-9 bg-orange-100 rounded-full flex items-center justify-center font-bold text-orange-600 text-sm">
+              CF</div>
+            <div>
+              <p class="font-semibold text-sm">Cesar F.</p>
+              <p class="text-xs text-gray-400">Moodibidri, Karnataka, India</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center gap-1 text-yellow-400 text-sm mb-4">★★★★★</div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-5">"I've been using DairySync for over 2 years now and I'm
+            very happy with it. We easily monitor every animal, apply bulk operations, and generate reports. We're very
+            happy with it."</p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600 text-sm">
+              MP</div>
+            <div>
+              <p class="font-semibold text-sm">Matthew P.</p>
+              <p class="text-xs text-gray-400">Mysore, Karnataka, India</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center gap-1 text-yellow-400 text-sm mb-4">★★★★★</div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-5">"What I like most about the app is that it helps me
+            follow up on tasks like dry-off and vaccination. It is an intuitive and easy-to-use application — exactly
+            what I needed."</p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center font-bold text-green-600 text-sm">
+              VU</div>
+            <div>
+              <p class="font-semibold text-sm">Victor U.</p>
+              <p class="text-xs text-gray-400">Kannur, Kerala, India</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="bg-orange-500 py-16 px-4">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Ready to Revolutionize Your Farm?</h2>
+      <p class="text-orange-100 mb-8">Join farmers already using DairySync to save time, cut costs, and maximize
+        animal health.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="auth.html?tab=signup"
+          class="bg-white text-orange-600 font-bold px-7 py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-md">Sign
+          Up for Free</a>
+        <a href="contact.html"
+          class="border-2 border-white text-white font-semibold px-7 py-3 rounded-xl hover:bg-orange-600 transition-colors">Contact
+          Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div id="footer"></div>
+
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <script>
+    function switchTab(id) {
+      // Hide all content
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      // Show selected
+      document.getElementById('content-' + id).classList.add('active');
+      document.getElementById('tab-' + id).classList.add('active');
+    }
+  </script>
+
+</body>
+
+</html>

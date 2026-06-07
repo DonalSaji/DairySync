@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Sign Up | DairySync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-dark: #ea6c0a;
+      --orange-light: #fff7ed;
+      --green: #22c55e;
+      --red: #ef4444;
+      --gray-border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: #f9fafb;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ===== SPLIT LAYOUT ===== */
+    .auth-wrapper {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 900px) {
+      .auth-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-panel {
+        display: none !important;
+      }
+    }
+
+    /* ===== LEFT PANEL — decorative ===== */
+    .auth-panel {
+      background: linear-gradient(145deg, #1c1917 0%, #292524 50%, #1c1917 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px;
+    }
+
+    /* animated grid */
+    .panel-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(249, 115, 22, .07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249, 115, 22, .07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridShift 20s linear infinite;
+    }
+
+    @keyframes gridShift {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(40px, 40px);
+      }
+    }
+
+    /* glowing orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 320px;
+      height: 320px;
+      background: var(--orange);
+      top: -80px;
+      left: -80px;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 250px;
+      height: 250px;
+      background: #f59e0b;
+      bottom: 60px;
+      right: -60px;
+      animation: orbFloat 11s ease-in-out infinite reverse;
+    }
+
+    .orb-3 {
+      width: 180px;
+      height: 180px;
+      background: #22c55e;
+      bottom: 200px;
+      left: 40px;
+      animation: orbFloat 14s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-30px);
+      }
+    }
+
+    /* panel content */
+    .panel-logo {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-center {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .panel-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* farm stats */
+    .stat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 10px 16px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 4px;
+    }
+
+    /* floating cards */
+    .float-card {
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .15);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 16px 20px;
+      color: white;
+      margin-bottom: 12px;
+      transition: transform .3s;
+    }
+
+    .float-card:hover {
+      transform: translateX(6px);
+    }
+
+    /* testimonial */
+    .testimonial-strip {
+      background: rgba(249, 115, 22, .15);
+      border: 1px solid rgba(249, 115, 22, .3);
+      border-radius: 14px;
+      padding: 16px 20px;
+      color: white;
+    }
+
+    /* ===== RIGHT PANEL — form ===== */
+    .auth-form-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 24px;
+      background: white;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    .auth-form-inner {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* ===== TAB SWITCHER ===== */
+    .tab-switch {
+      display: flex;
+      background: #f3f4f6;
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 32px;
+      gap: 4px;
+    }
+
+    .tab-switch button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .2s;
+      background: transparent;
+      color: #6b7280;
+    }
+
+    .tab-switch button.active {
+      background: white;
+      color: var(--orange);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+    }
+
+    /* ===== FORM FIELDS ===== */
+    .field-wrap {
+      margin-bottom: 18px;
+    }
+
+    .field-wrap label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .field-inner {
+      position: relative;
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      pointer-events: none;
+      color: #9ca3af;
+      transition: color .2s;
+    }
+
+    .field-inner:focus-within .field-icon {
+      color: var(--orange);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 16px 13px 44px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: white;
+      color: #1f2937;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, .12);
+    }
+
+    .form-input::placeholder {
+      color: #c4c4c4;
+    }
+
+    .form-input.error {
+      border-color: var(--red);
+    }
+
+    .form-input.error:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, .12);
+    }
+
+    .form-input.success {
+      border-color: var(--green);
+    }
+
+    /* password toggle */
+    .pwd-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px;
+      transition: color .2s;
+    }
+
+    .pwd-toggle:hover {
+      color: var(--orange);
+    }
+
+    .pwd-input {
+      padding-right: 48px !important;
+    }
+
+    /* error / hint messages */
+    .field-msg {
+      font-size: 11px;
+      margin-top: 5px;
+      padding-left: 2px;
+      display: none;
+      animation: msgIn .2s ease;
+    }
+
+    @keyframes msgIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .field-msg.show {
+      display: block;
+    }
+
+    .field-msg.err {
+      color: var(--red);
+    }
+
+    .field-msg.hint {
+      color: #9ca3af;
+    }
+
+    .field-msg.ok {
+      color: var(--green);
+    }
+
+    /* strength bar */
+    .strength-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .str-seg {
+      flex: 1;
+      height: 3px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      transition: background .3s;
+    }
+
+    /* ===== CAPTCHA ===== */
+    .captcha-box {
+      border: 1.5px solid var(--gray-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background: white;
+      user-select: none;
+    }
+
+    .captcha-box:hover {
+      border-color: var(--orange);
+    }
+
+    .captcha-box.verified {
+      border-color: var(--green);
+      background: #f0fdf4;
+    }
+
+    .captcha-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .captcha-cb {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+
+    .captcha-box.verified .captcha-cb {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .captcha-check {
+      color: white;
+      font-size: 14px;
+      display: none;
+    }
+
+    .captcha-box.verified .captcha-check {
+      display: block;
+    }
+
+    .captcha-spinner {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #e5e7eb;
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      display: none;
+      animation: spin .7s linear infinite;
+    }
+
+    .captcha-box.loading .captcha-spinner {
+      display: block;
+    }
+
+    .captcha-box.loading .captcha-cb {
+      display: none;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .captcha-logo {
+      font-size: 22px;
+    }
+
+    .captcha-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .captcha-subtext {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    /* ===== SUBMIT BTN ===== */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 15px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 18px rgba(249, 115, 22, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(249, 115, 22, .4);
+    }
+
+    .btn-submit:disabled {
+      background: #fed7aa;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* progress dots for submit */
+    .submit-dots span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50;
+      margin: 0 2px;
+      animation: dot-bounce .8s infinite;
+    }
+
+    .submit-dots span:nth-child(2) {
+      animation-delay: .15s;
+    }
+
+    .submit-dots span:nth-child(3) {
+      animation-delay: .30s;
+    }
+
+    @keyframes dot-bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0.7)
+      }
+
+      40% {
+        transform: scale(1.1)
+      }
+    }
+
+    /* ===== DIVIDER ===== */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: #d1d5db;
+      font-size: 12px;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #f3f4f6;
+    }
+
+    /* ===== SOCIAL BTN ===== */
+    .btn-social {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 12px;
+      background: white;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all .2s;
+      color: #374151;
+    }
+
+    .btn-social:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-light);
+    }
+
+    /* ===== STEP INDICATOR (signup) ===== */
+    .steps-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .step-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      border: 2px solid var(--gray-border);
+      color: #9ca3af;
+      background: white;
+      transition: all .3s;
+      flex-shrink: 0;
+    }
+
+    .step-dot.active {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-light);
+    }
+
+    .step-dot.done {
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+    }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--gray-border);
+      margin: 0 6px;
+      transition: background .3s;
+    }
+
+    .step-line.done {
+      background: var(--green);
+    }
+
+    .step-label {
+      font-size: 9px;
+      text-align: center;
+      color: #9ca3af;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* ===== SUCCESS STATE ===== */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .success-screen.show {
+      display: block;
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: #f0fdf4;
+      border: 3px solid var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+      animation: popIn .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* ===== PAGE SWITCH ANIMATION ===== */
+    .auth-page {
+      transition: opacity .25s, transform .25s;
+    }
+
+    .auth-page.hidden {
+      display: none;
+    }
+
+    .auth-page.slide-out {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .auth-page.slide-in {
+      animation: slideIn .3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: white;
+      border-bottom: 1px solid #f3f4f6;
+      padding: 12px 20px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 900px) {
+      .mobile-nav {
+        display: flex;
+      }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f9fafb;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #fed7aa;
+      border-radius: 999px;
+    }
+
+    /* two-col grid for signup */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 14px;
+    }
+
+    @media (max-width: 500px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-extrabold text-xs">
+        DS</div>
+      <span class="font-extrabold text-gray-900 text-base" style="font-family:'Nunito',sans-serif">DairySync</span>
+    </a>
+    <a href="index.html" class="text-xs text-gray-500 hover:text-orange-500">← Back to site</a>
+  </div>
+
+  <div class="auth-wrapper" style="margin-top:0">
+
+    <!-- ===== LEFT DECORATIVE PANEL ===== -->
+    <div class="auth-panel">
+      <div class="panel-grid"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <!-- Logo -->
+      <div class="panel-logo">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-extrabold">DS
+          </div>
+          <span class="font-extrabold text-2xl text-white" style="font-family:'Nunito',sans-serif">DairySync</span>
+        </a>
+      </div>
+
+      <!-- Center content -->
+      <div class="panel-center py-12">
+        <div class="text-xs font-bold text-orange-400 uppercase tracking-widest mb-4">Trusted by Many Farmers</div>
+        <h2 class="text-3xl font-extrabold text-white leading-snug mb-6">
+          Your Entire Farm.<br>One Dashboard.<br><span class="text-orange-400">Zero Paperwork.</span>
+        </h2>
+        <p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-xs">
+          From milk yield to vaccination records — DairySync centralises every operation so you can focus on what
+          matters.
+        </p>
+
+        <!-- Feature chips -->
+        <div class="mb-8 flex flex-wrap">
+          <span class="stat-chip">🐄 500K+ Animals Tracked</span>
+          <span class="stat-chip">🥛 2M+ Daily Records</span>
+          <span class="stat-chip">📱 Mobile App</span>
+          <span class="stat-chip">💉 Vaccination Alerts</span>
+          <span class="stat-chip">🌾 Feed Analytics</span>
+        </div>
+
+        <!-- Preview cards -->
+        <div class="float-card">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-orange-400">Today's Milk Production</span>
+            <span class="text-xs text-gray-400">Farm: Sunrise Dairy</span>
+          </div>
+          <div class="flex items-end gap-4">
+            <div>
+              <p class="text-2xl font-black text-white">847 <span
+                  class="text-base font-normal text-gray-400">litres</span></p>
+              <p class="text-xs text-green-400 mt-0.5">↑ 12% vs yesterday</p>
+            </div>
+            <div class="flex items-end gap-1 pb-1">
+              <div class="w-3 bg-orange-400 rounded-sm" style="height:20px"></div>
+              <div class="w-3 bg-orange-400 rounded-sm" style="height:28px"></div>
+              <div class="w-3 bg-orange-400 rounded-sm" style="height:22px"></div>
+              <div class="w-3 bg-orange-500 rounded-sm" style="height:36px"></div>
+              <div class="w-3 bg-orange-300 rounded-sm" style="height:18px"></div>
+              <div class="w-3 bg-orange-500 rounded-sm" style="height:32px"></div>
+              <div class="w-3 bg-green-400 rounded-sm" style="height:40px"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="float-card">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center text-white text-sm">💉</div>
+            <div>
+              <p class="text-white text-sm font-semibold">3 Vaccinations Due</p>
+              <p class="text-gray-400 text-xs">Cow #114, #227, #389 — Next 48 hrs</p>
+            </div>
+            <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial -->
+      <div class="panel-bottom">
+        <div class="testimonial-strip">
+          <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★★</div>
+          <p class="text-white text-sm leading-relaxed italic mb-3">"DairySync saved me 3 hours daily. The milk and
+            health dashboards are incredibly easy to use from my phone during morning milking."</p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+              RK</div>
+            <div>
+              <p class="text-white text-xs font-semibold">Ramesh K.</p>
+              <p class="text-gray-400 text-xs">Karnataka, India · 120 cattle</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT FORM PANEL ===== -->
+    <div class="auth-form-wrap" style="padding-top: 60px;">
+      <div class="auth-form-inner">
+
+
+
+        <!-- Tab switcher -->
+        <div class="tab-switch">
+          <button id="tab-login" class="active" onclick="switchTab('login')">Sign In</button>
+          <button id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- LOGIN PAGE                                                    -->
+        <!-- ============================================================ -->
+        <div id="page-login" class="auth-page slide-in">
+
+          <!-- Success screen -->
+          <div id="login-success" class="success-screen">
+            <div class="success-icon">✅</div>
+            <h3 class="text-xl font-extrabold text-gray-900 mb-2">Welcome back!</h3>
+            <p class="text-gray-500 text-sm mb-6">Login successful. Redirecting to your dashboard…</p>
+            <div class="w-8 h-8 border-2 border-orange-300 border-t-orange-500 rounded-full animate-spin mx-auto"></div>
+          </div>
+
+          <!-- Login form -->
+          <div id="login-form">
+            <div class="mb-7">
+              <h2 class="text-2xl font-extrabold text-gray-900 mb-1">Welcome back 👋</h2>
+              <p class="text-sm text-gray-400">Sign in to your DairySync farm dashboard.</p>
+            </div>
+
+            <!-- Email -->
+            <div class="field-wrap">
+              <label for="l-email">Email Address</label>
+              <div class="field-inner">
+                <span class="field-icon">✉️</span>
+                <input type="email" id="l-email" class="form-input" placeholder="you@farm.com"
+                  oninput="validateLoginEmail()" onblur="validateLoginEmail()" />
+              </div>
+              <div class="field-msg err" id="l-email-err">Please enter a valid email address.</div>
+            </div>
+
+            <!-- Password -->
+            <div class="field-wrap">
+              <label for="l-password">
+                Password
+                <a href="#" class="text-orange-500 normal-case font-normal float-right hover:underline text-xs">Forgot
+                  password?</a>
+              </label>
+              <div class="field-inner">
+                <span class="field-icon">🔒</span>
+                <input type="password" id="l-password" class="form-input pwd-input" placeholder="Enter your password"
+                  oninput="validateLoginPwd()" onblur="validateLoginPwd()" />
+                <button class="pwd-toggle" type="button" onclick="togglePwd('l-password', this)">👁</button>
+              </div>
+              <div class="field-msg err" id="l-pwd-err">Password must be at least 6 characters.</div>
+            </div>
+
+            <!-- Remember me -->
+            <div class="flex items-center gap-3 mb-5">
+              <input type="checkbox" id="l-remember" class="w-4 h-4 accent-orange-500 cursor-pointer" />
+              <label for="l-remember" class="text-sm text-gray-500 cursor-pointer">Remember me on this device</label>
+            </div>
+
+            <!-- CAPTCHA -->
+            <div class="field-wrap">
+              <label>Security Check</label>
+              <div class="captcha-box" id="login-captcha" onclick="triggerCaptcha('login')">
+                <div class="captcha-left">
+                  <div class="captcha-cb">
+                    <span class="captcha-check">✓</span>
+                  </div>
+                  <div class="captcha-spinner"></div>
+                  <div>
+                    <p class="captcha-text" id="login-captcha-text">I'm not a robot</p>
+                    <p class="captcha-subtext">Click to verify</p>
+                  </div>
+                </div>
+                <div class="captcha-logo">🤖</div>
+              </div>
+              <div class="field-msg err" id="l-captcha-err">Please complete the security check.</div>
+            </div>
+
+            <!-- Submit -->
+            <button class="btn-submit" id="l-submit" onclick="submitLogin()">
+              <span id="l-btn-text">Sign In to Dashboard</span>
+              <span id="l-btn-arrow">→</span>
+              <span id="l-btn-loading" class="submit-dots" style="display:none">
+                <span></span><span></span><span></span>
+              </span>
+            </button>
+
+
+
+
+            <p class="text-center text-xs text-gray-400 mt-6">
+              Don't have an account?
+              <button class="text-orange-500 font-semibold hover:underline" onclick="switchTab('signup')">Create one
+                free →</button>
+            </p>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SIGN UP PAGE                                                  -->
+        <!-- ============================================================ -->
+        <div id="page-signup" class="auth-page hidden">
+
+          <!-- Success screen -->
+          <div id="signup-success" class="success-screen">
+            <div class="success-icon">🎉</div>
+            <h3 class="text-xl font-extrabold text-gray-900 mb-2">Account Created!</h3>
+            <p class="text-gray-500 text-sm mb-1">Welcome to DairySync, <strong id="welcome-name"></strong>!</p>
+            <p class="text-gray-400 text-xs mb-6">Check your email to verify your account and get started.</p>
+            <button class="btn-submit" onclick="switchTab('login')" style="max-width:240px;margin:0 auto">Go to Sign In
+              →</button>
+          </div>
+
+          <!-- Signup form -->
+          <div id="signup-form">
+            <div class="mb-5">
+              <h2 class="text-2xl font-extrabold text-gray-900 mb-1">Start your free trial 🌾</h2>
+              <p class="text-sm text-gray-400">14 days free. No credit card required.</p>
+            </div>
+
+
+
+            <!-- STEP 1: Personal Info -->
+            <div id="step-1">
+              <div class="grid-2">
+                <!-- Username -->
+                <div class="field-wrap">
+                  <label>Username <span class="text-orange-500 normal-case font-normal">*</span></label>
+                  <div class="field-inner">
+                    <span class="field-icon">👤</span>
+                    <input type="text" id="s-username" class="form-input" placeholder="farmerjohn"
+                      oninput="validateUsername()" onblur="validateUsername()" />
+                  </div>
+                  <div class="field-msg err" id="s-username-err"></div>
+                  <div class="field-msg ok" id="s-username-ok"></div>
+                </div>
+
+                <!-- Phone -->
+                <div class="field-wrap">
+                  <label>Phone Number <span class="text-orange-500 normal-case font-normal">*</span></label>
+                  <div class="field-inner">
+                    <span class="field-icon">📞</span>
+                    <input type="tel" id="s-phone" class="form-input" placeholder="+91 98765 43210"
+                      oninput="validatePhone()" onblur="validatePhone()" />
+                  </div>
+                  <div class="field-msg err" id="s-phone-err"></div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="field-wrap">
+                <label>Email Address <span class="text-orange-500 normal-case font-normal">*</span></label>
+                <div class="field-inner">
+                  <span class="field-icon">✉️</span>
+                  <input type="email" id="s-email" class="form-input" placeholder="you@farm.com"
+                    oninput="validateSignupEmail()" onblur="validateSignupEmail()" />
+                </div>
+                <div class="field-msg err" id="s-email-err"></div>
+              </div>
+
+
+              <!-- Farm Name -->
+              <div class="field-wrap">
+                <label>Farm Name <span class="text-orange-500 normal-case font-normal">*</span></label>
+                <div class="field-inner">
+                  <span class="field-icon">🏡</span>
+                  <input type="text" id="s-farmname" class="form-input" placeholder="Sunrise Dairy Farm"
+                    oninput="validateFarmName()" onblur="validateFarmName()" />
+                </div>
+                <div class="field-msg err" id="s-farmname-err"></div>
+              </div>
+
+              <!-- Farm Location -->
+              <div class="field-wrap">
+                <label>Farm Location <span class="text-orange-500 normal-case font-normal">*</span></label>
+                <div class="field-inner">
+                  <span class="field-icon">📍</span>
+                  <input type="text" id="s-location" class="form-input" placeholder="Village, District, State"
+                    oninput="validateLocation()" onblur="validateLocation()" />
+                </div>
+                <div class="field-msg err" id="s-location-err"></div>
+                <div class="field-msg hint show">E.g. Belgaum, Karnataka, India</div>
+              </div>
+
+              <!-- Farm type -->
+              <div class="grid-2">
+                <div class="field-wrap">
+                  <label>Farm Type</label>
+                  <div class="field-inner">
+                    <span class="field-icon">🐄</span>
+                    <select id="s-farmtype" class="form-input" style="padding-left:44px; cursor:pointer">
+                      <option value="">Select farm type…</option>
+                      <option>Dairy Farm</option>
+                      <option>Beef Cattle Farm</option>
+                      <option>Cow Calf Operation</option>
+                      <option>Mixed Farm</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Herd size -->
+                <div class="field-wrap">
+                  <label>Approximate Herd Size</label>
+                  <div class="field-inner">
+                    <span class="field-icon">🐮</span>
+                    <select id="s-herdsize" class="form-input" style="padding-left:44px; cursor:pointer">
+                      <option value="">Select herd size…</option>
+                      <option>1 – 50 cattle</option>
+                      <option>51 – 100 cattle</option>
+                      <option>101 – 200 cattle</option>
+                      <option>200+ cattle</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="field-wrap">
+                <label>Password <span class="text-orange-500 normal-case font-normal">*</span></label>
+                <div class="field-inner">
+                  <span class="field-icon">🔒</span>
+                  <input type="password" id="s-password" class="form-input pwd-input"
+                    placeholder="Create a strong password" oninput="validateSignupPwd()" onblur="validateSignupPwd()" />
+                  <button class="pwd-toggle" type="button" onclick="togglePwd('s-password', this)">👁</button>
+                </div>
+                <!-- Strength bar -->
+                <div class="strength-bar" id="s-strength-bar">
+                  <div class="str-seg" id="seg-1"></div>
+                  <div class="str-seg" id="seg-2"></div>
+                  <div class="str-seg" id="seg-3"></div>
+                  <div class="str-seg" id="seg-4"></div>
+                </div>
+                <div class="field-msg hint show" id="s-strength-label">Use 8+ chars, uppercase, number & symbol for a
+                  strong password.</div>
+                <div class="field-msg err" id="s-pwd-err"></div>
+              </div>
+
+              <!-- Confirm password -->
+              <div class="field-wrap">
+                <label>Confirm Password <span class="text-orange-500 normal-case font-normal">*</span></label>
+                <div class="field-inner">
+                  <span class="field-icon">🔑</span>
+                  <input type="password" id="s-confirm" class="form-input pwd-input" placeholder="Repeat your password"
+                    oninput="validateConfirm()" onblur="validateConfirm()" />
+                  <button class="pwd-toggle" type="button" onclick="togglePwd('s-confirm', this)">👁</button>
+                </div>
+                <div class="field-msg err" id="s-confirm-err"></div>
+                <div class="field-msg ok" id="s-confirm-ok"></div>
+              </div>
+
+              <!-- CAPTCHA -->
+              <div class="field-wrap">
+                <label>Security Verification</label>
+                <div class="captcha-box" id="signup-captcha" onclick="triggerCaptcha('signup')">
+                  <div class="captcha-left">
+                    <div class="captcha-cb">
+                      <span class="captcha-check">✓</span>
+                    </div>
+                    <div class="captcha-spinner"></div>
+                    <div>
+                      <p class="captcha-text" id="signup-captcha-text">I'm not a robot</p>
+                      <p class="captcha-subtext">Click to verify</p>
+                    </div>
+                  </div>
+                  <div class="captcha-logo">🤖</div>
+                </div>
+                <div class="field-msg err" id="s-captcha-err">Please complete the security check.</div>
+              </div>
+
+              <!-- Terms -->
+              <div class="flex items-start gap-3 mb-5">
+                <input type="checkbox" id="s-terms" class="mt-0.5 w-4 h-4 accent-orange-500 cursor-pointer"
+                  onchange="validateTerms()" />
+                <label for="s-terms" class="text-xs text-gray-500 leading-relaxed cursor-pointer">
+                  I agree to DairySync's
+                  <a href="#" class="text-orange-500 font-semibold hover:underline">Terms of Service</a>
+                  and
+                  <a href="#" class="text-orange-500 font-semibold hover:underline">Privacy Policy</a>
+                </label>
+              </div>
+              <div class="field-msg err mb-3" id="s-terms-err">You must accept the terms to create an account.</div>
+
+              <div class="flex gap-3">
+
+                <button class="btn-submit" style="flex:1" id="s-submit" onclick="submitSignup()">
+                  <span id="s-btn-text">Create My Farm Account</span>
+                  <span id="s-btn-loading" class="submit-dots"
+                    style="display:none"><span></span><span></span><span></span></span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-center text-xs text-gray-400 mt-6">
+              Already have an account?
+              <button class="text-orange-500 font-semibold hover:underline" onclick="switchTab('login')">Sign in
+                →</button>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+
+      if (tab === "signup") {
+        switchTab("signup");
+      } else {
+        switchTab("login"); // default
+      }
+    });
+    /* ========== TAB SWITCH ========== */
+    function switchTab(tab) {
+      const loginPage = document.getElementById('page-login');
+      const signupPage = document.getElementById('page-signup');
+      const btnLogin = document.getElementById('tab-login');
+      const btnSignup = document.getElementById('tab-signup');
+
+      if (tab === 'login') {
+        signupPage.classList.add('hidden');
+        loginPage.classList.remove('hidden');
+        loginPage.classList.add('slide-in');
+        btnLogin.classList.add('active');
+        btnSignup.classList.remove('active');
+      } else {
+        loginPage.classList.add('hidden');
+        signupPage.classList.remove('hidden');
+        signupPage.classList.add('slide-in');
+        btnSignup.classList.add('active');
+        btnLogin.classList.remove('active');
+      }
+    }
+
+    /* ========== PASSWORD TOGGLE ========== */
+    function togglePwd(id, btn) {
+      const inp = document.getElementById(id);
+      if (inp.type === 'password') {
+        inp.type = 'text'; btn.textContent = '🙈';
+      } else {
+        inp.type = 'password'; btn.textContent = '👁';
+      }
+    }
+
+    /* ========== HELPER: show/hide msg ========== */
+    function showErr(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+    function hideMsg(id) {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('show'); }
+    }
+    function setFieldState(id, state) {
+      const el = document.getElementById(id);
+      el.classList.remove('error', 'success');
+      if (state) el.classList.add(state);
+    }
+
+    /* ========== LOGIN VALIDATORS ========== */
+    function validateLoginEmail() {
+      const v = document.getElementById('l-email').value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      setFieldState('l-email', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('l-email-err') : showErr('l-email-err', 'Please enter a valid email address.');
+      return ok && v;
+    }
+    function validateLoginPwd() {
+      const v = document.getElementById('l-password').value;
+      const ok = v.length >= 6;
+      setFieldState('l-password', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('l-pwd-err') : showErr('l-pwd-err', 'Password must be at least 6 characters.');
+      return ok && v;
+    }
+
+    /* ========== SIGNUP VALIDATORS ========== */
+    function validateUsername() {
+      const v = document.getElementById('s-username').value.trim();
+      if (!v) { setFieldState('s-username', ''); hideMsg('s-username-err'); hideMsg('s-username-ok'); return false; }
+      if (v.length < 3) { setFieldState('s-username', 'error'); showErr('s-username-err', 'Username must be at least 3 characters.'); hideMsg('s-username-ok'); return false; }
+      if (!/^[a-zA-Z0-9_]+$/.test(v)) { setFieldState('s-username', 'error'); showErr('s-username-err', 'Only letters, numbers, and underscores allowed.'); hideMsg('s-username-ok'); return false; }
+      setFieldState('s-username', 'success'); hideMsg('s-username-err');
+      const ok = document.getElementById('s-username-ok');
+      ok.textContent = '✓ Username looks good!'; ok.classList.add('show');
+      return true;
+    }
+    function validatePhone() {
+      const v = document.getElementById('s-phone').value.trim();
+      if (!v) { setFieldState('s-phone', ''); hideMsg('s-phone-err'); return false; }
+      const digits = v.replace(/\D/g, '');
+      const ok = digits.length >= 10;
+      setFieldState('s-phone', ok ? 'success' : 'error');
+      ok ? hideMsg('s-phone-err') : showErr('s-phone-err', 'Enter a valid phone number (10+ digits).');
+      return ok;
+    }
+    function validateSignupEmail() {
+      const v = document.getElementById('s-email').value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      setFieldState('s-email', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('s-email-err') : showErr('s-email-err', 'Please enter a valid email address.');
+      return ok && v;
+    }
+    function validateFarmName() {
+      const v = document.getElementById('s-farmname').value.trim();
+      const ok = v.length >= 2;
+      setFieldState('s-farmname', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('s-farmname-err') : showErr('s-farmname-err', 'Farm name must be at least 2 characters.');
+      return ok && v;
+    }
+    function validateLocation() {
+      const v = document.getElementById('s-location').value.trim();
+      const ok = v.length >= 3;
+      setFieldState('s-location', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('s-location-err') : showErr('s-location-err', 'Please enter your farm location.');
+      return ok && v;
+    }
+    function validateSignupPwd() {
+      const v = document.getElementById('s-password').value;
+      // Strength
+      let score = 0;
+      if (v.length >= 8) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+
+      const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
+      const labels = ['Weak — add more variety', 'Fair — try adding uppercase or numbers', 'Good — almost there!', 'Strong password ✓'];
+      for (let i = 1; i <= 4; i++) {
+        const seg = document.getElementById('seg-' + i);
+        seg.style.background = i <= score ? colors[score - 1] : '#e5e7eb';
+      }
+      if (v) {
+        const lbl = document.getElementById('s-strength-label');
+        lbl.textContent = labels[score - 1] || 'Enter a password'; lbl.classList.add('show');
+        lbl.style.color = colors[Math.max(0, score - 1)];
+      }
+
+      const ok = v.length >= 8;
+      setFieldState('s-password', v ? (ok ? 'success' : 'error') : '');
+      ok || !v ? hideMsg('s-pwd-err') : showErr('s-pwd-err', 'Password must be at least 8 characters.');
+
+      // revalidate confirm if filled
+      if (document.getElementById('s-confirm').value) validateConfirm();
+      return ok && v;
+    }
+    function validateConfirm() {
+      const p = document.getElementById('s-password').value;
+      const c = document.getElementById('s-confirm').value;
+      if (!c) { setFieldState('s-confirm', ''); hideMsg('s-confirm-err'); hideMsg('s-confirm-ok'); return false; }
+      const ok = p === c;
+      setFieldState('s-confirm', ok ? 'success' : 'error');
+      hideMsg('s-confirm-err'); hideMsg('s-confirm-ok');
+      if (!ok) { showErr('s-confirm-err', 'Passwords do not match.'); return false; }
+      const okEl = document.getElementById('s-confirm-ok');
+      okEl.textContent = '✓ Passwords match!'; okEl.classList.add('show');
+      return true;
+    }
+    function validateTerms() {
+      const ok = document.getElementById('s-terms').checked;
+      ok ? hideMsg('s-terms-err') : showErr('s-terms-err', 'You must accept the terms to create an account.');
+      return ok;
+    }
+
+    /* ========== CAPTCHA SIMULATION ========== */
+    const captchaState = { login: false, signup: false };
+    function triggerCaptcha(which) {
+      if (captchaState[which]) return;
+      const box = document.getElementById(which + '-captcha');
+      box.classList.add('loading');
+      box.style.pointerEvents = 'none';
+      setTimeout(() => {
+        box.classList.remove('loading');
+        box.classList.add('verified');
+        captchaState[which] = true;
+        const txt = document.getElementById(which + '-captcha-text');
+        txt.textContent = 'Verified ✓';
+        txt.style.color = '#16a34a';
+        hideMsg(which === 'login' ? 'l-captcha-err' : 's-captcha-err');
+      }, 1800);
+    }
+
+    /* ========== STEP NAVIGATION ========== */
+    const stepValidators = {
+      1: () => validateUsername() & validatePhone() & validateSignupEmail(),
+      2: () => validateFarmName() & validateLocation(),
+      3: () => validateSignupPwd() & validateConfirm()
+    };
+
+    function goStep(to) {
+      const from = to === 1 ? (document.getElementById('step-2').style.display !== 'none' ? 2 : 3) :
+        to === 2 ? (document.getElementById('step-1').style.display !== 'none' ? 1 : 3) :
+          to === 3 ? 2 : 1;
+
+      if (to > from && !stepValidators[from]()) return;
+
+      // update dots
+      for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById('s-dot-' + i);
+        dot.classList.remove('active', 'done');
+        if (i < to) dot.classList.add('done');
+        else if (i === to) dot.classList.add('active');
+      }
+      for (let i = 1; i <= 2; i++) {
+        const line = document.getElementById('s-line-' + i);
+        line.classList.toggle('done', i < to);
+      }
+
+      // show/hide steps
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('step-' + i).style.display = i === to ? 'block' : 'none';
+      }
+    }
+
+    /* ========== LOGIN SUBMIT ========== */
+    function submitLogin() {
+      const eOk = validateLoginEmail();
+      const pOk = validateLoginPwd();
+      if (!eOk || !pOk) return;
+      if (!captchaState.login) { showErr('l-captcha-err', 'Please complete the security check.'); return; }
+
+      // Loading state
+      document.getElementById('l-btn-text').style.display = 'none';
+      document.getElementById('l-btn-arrow').style.display = 'none';
+      document.getElementById('l-btn-loading').style.display = 'flex';
+      document.getElementById('l-submit').disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('login-success').classList.add('show');
+      }, 2000);
+    }
+
+    /* ========== SIGNUP SUBMIT ========== */
+    function submitSignup() {
+      if (!validateSignupPwd() | !validateConfirm()) return;
+      if (!captchaState.signup) { showErr('s-captcha-err', 'Please complete the security check.'); return; }
+      if (!validateTerms()) return;
+
+      document.getElementById('s-btn-text').style.display = 'none';
+      document.getElementById('s-btn-loading').style.display = 'flex';
+      document.getElementById('s-submit').disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('welcome-name').textContent = document.getElementById('s-username').value;
+        document.getElementById('signup-success').classList.add('show');
+      }, 2200);
+    }
+
+  </script>
+</body>
+
+</html>
