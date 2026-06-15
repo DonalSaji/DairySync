@@ -379,11 +379,11 @@
     }
 
     .svc-panel {
-      display: none;
+      display: none !important;
     }
 
     .svc-panel.active {
-      display: grid;
+      display: grid !important;
     }
   </style>
 </head>
@@ -439,7 +439,7 @@
         to milk yield analytics and health records — giving you a single, reliable source of truth for every decision.
       </p>
       <div class="fade-up d3 flex flex-wrap justify-center gap-4">
-        <a href="#" class="btn-orange">Start Free Trial →</a>
+        <a href="auth.html?tab=signup" class="btn-orange">Start Free Trial →</a>
         <a href="#services" class="btn-outline">Explore Services ↓</a>
       </div>
     </div>
@@ -503,16 +503,16 @@
 
       <!-- Service tabs -->
       <div class="flex flex-wrap justify-center gap-2 mb-10">
-        <button class="svc-tab active" onclick="showPanel('farmer')">👨‍🌾 Farmer & Farm</button>
-        <button class="svc-tab" onclick="showPanel('animal')">🐄 Animal Management</button>
-        <button class="svc-tab" onclick="showPanel('feed')">🌾 Feed Management</button>
-        <button class="svc-tab" onclick="showPanel('health')">💊 Health Tracking</button>
-        <button class="svc-tab" onclick="showPanel('milk')">🥛 Milk Production</button>
-        <button class="svc-tab" onclick="showPanel('reports')">📊 Reports</button>
+        <button class="svc-tab active" onclick="showPanel('farmer', this)">👨‍🌾 Farmer & Farm</button>
+        <button class="svc-tab" onclick="showPanel('animal', this)">🐄 Animal Management</button>
+        <button class="svc-tab" onclick="showPanel('feed', this)">🌾 Feed Management</button>
+        <button class="svc-tab" onclick="showPanel('health', this)">💊 Health Tracking</button>
+        <button class="svc-tab" onclick="showPanel('milk', this)">🥛 Milk Production</button>
+        <button class="svc-tab" onclick="showPanel('reports', this)">📊 Reports</button>
       </div>
 
       <!-- Panel: Farmer & Farm -->
-      <div class="svc-panel active grid md:grid-cols-2 gap-6" id="panel-farmer">
+      <div class="svc-panel active grid md:grid-cols-2 gap-6 mb-6" id="panel-farmer">
         <div class="service-card" style="--card-accent:#f97316">
           <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl mb-5">👨‍🌾</div>
           <h3 class="text-lg font-extrabold text-gray-900 mb-1">Farmer Management</h3>
@@ -540,7 +540,7 @@
       </div>
 
       <!-- Panel: Animal -->
-      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-animal">
+      <div class="svc-panel grid md:grid-cols-2 gap-6 mb-6" id="panel-animal">
         <div class="service-card" style="--card-accent:#3b82f6">
           <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-5">🐄</div>
           <h3 class="text-lg font-extrabold text-gray-900 mb-1">Animal Profiles</h3>
@@ -571,7 +571,7 @@
       </div>
 
       <!-- Panel: Feed -->
-      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-feed">
+      <div class="svc-panel grid md:grid-cols-2 gap-6 mb-6" id="panel-feed">
         <div class="service-card" style="--card-accent:#22c55e">
           <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-5">🌾</div>
           <h3 class="text-lg font-extrabold text-gray-900 mb-1">Feed Catalogue & Inventory</h3>
@@ -601,7 +601,7 @@
       </div>
 
       <!-- Panel: Health -->
-      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-health">
+      <div class="svc-panel grid md:grid-cols-2 gap-6 mb-6" id="panel-health">
         <div class="service-card" style="--card-accent:#ef4444">
           <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl mb-5">💉</div>
           <h3 class="text-lg font-extrabold text-gray-900 mb-1">Vaccination Management</h3>
@@ -632,7 +632,7 @@
       </div>
 
       <!-- Panel: Milk -->
-      <div class="svc-panel grid md:grid-cols-2 gap-6" id="panel-milk">
+      <div class="svc-panel grid md:grid-cols-2 gap-6 mb-6" id="panel-milk">
         <div class="service-card" style="--card-accent:#6366f1">
           <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-5">🥛</div>
           <h3 class="text-lg font-extrabold text-gray-900 mb-1">Daily Milk Production</h3>
@@ -962,11 +962,22 @@
   </script>
 
   <script>
-    function showPanel(id) {
-      document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.svc-tab').forEach(t => t.classList.remove('active'));
+    function showPanel(id, btn) {
+      // Hide all panels
+      document.querySelectorAll('.svc-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+
+      // Remove active class from all tabs
+      document.querySelectorAll('.svc-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Show selected panel
       document.getElementById('panel-' + id).classList.add('active');
-      event.currentTarget.classList.add('active');
+
+      // Activate clicked tab
+      btn.classList.add('active');
     }
   </script>
 </body>
