@@ -1398,19 +1398,34 @@
     function submitLogin() {
       const eOk = validateLoginEmail();
       const pOk = validateLoginPwd();
+
       if (!eOk || !pOk) return;
-      if (!captchaState.login) { showErr('l-captcha-err', 'Please complete the security check.'); return; }
 
-      // Loading state
-      document.getElementById('l-btn-text').style.display = 'none';
-      document.getElementById('l-btn-arrow').style.display = 'none';
-      document.getElementById('l-btn-loading').style.display = 'flex';
-      document.getElementById('l-submit').disabled = true;
+      if (!captchaState.login) {
+        showErr('l-captcha-err', 'Please complete the security check.');
+        return;
+      }
 
-      setTimeout(() => {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('login-success').classList.add('show');
-      }, 2000);
+      const email = document.getElementById('l-email').value.trim();
+      const password = document.getElementById('l-password').value;
+
+      // Check credentials
+      if (
+        email === 'admin@dairysync.in' &&
+        password === 'Admin@123'
+      ) {
+        // Loading state
+        document.getElementById('l-btn-text').style.display = 'none';
+        document.getElementById('l-btn-arrow').style.display = 'none';
+        document.getElementById('l-btn-loading').style.display = 'flex';
+        document.getElementById('l-submit').disabled = true;
+
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2000);
+      } else {
+        showErr('l-captcha-err', 'Invalid email or password.');
+      }
     }
 
     /* ========== SIGNUP SUBMIT ========== */
@@ -1424,10 +1439,8 @@
       document.getElementById('s-submit').disabled = true;
 
       setTimeout(() => {
-        document.getElementById('signup-form').style.display = 'none';
-        document.getElementById('welcome-name').textContent = document.getElementById('s-username').value;
-        document.getElementById('signup-success').classList.add('show');
-      }, 2200);
+          window.location.href = 'dashboard.html';
+        }, 2000);
     }
 
   </script>
